@@ -238,8 +238,28 @@ var anchor = svg.append("g")
 var graphic = deep.selectAll("svg,canvas");
 
 var image = new Image;
-image.src = "ex.jpg?3f2d00ffdba6ced9c50f02ed42f12f6156368bd2";
+// image.src = ;
 image.onload = resized;
+
+var sources = [ "http://impreza.us-themes.com/wp-content/uploads/img-6.jpg", "https://upload.wikimedia.org/wikipedia/commons/0/07/Bonsai_IMG_6425.jpg", "http://kharwal.com/wp-content/uploads/2015/03/why-need-img-2.png",
+				"https://usathss.files.wordpress.com/2015/08/football_edited3-e1440214222354.jpg?w=1000&h=405", "https://upload.wikimedia.org/wikipedia/commons/3/3a/Fasion_IMG_3983.JPG" ];
+
+// Set image src 
+//image.src = sources[0];
+
+
+// mesh.append("svg:pattern")
+//     .attr("id", "background")
+//     .attr("width", 400)
+//     .attr("height", 400)
+//     .attr("patternUnits", "userSpaceOnUse")
+//     .append("svg:image")
+//     .attr("xlink:href", 'http://placekitten.com/g/48/48')
+//     .attr("width", 200)
+//     .attr("height", 200)
+//     .attr("x", 0)
+//     .attr("y", 0);
+
 
 d3.select(window)
     .on("resize", resized)
@@ -258,11 +278,12 @@ function drawImage(d) {
   }
 
   context.clip();
-  context.drawImage(image,
-      imageWidth * d.i, imageHeight * d.j,
-      imageWidth, imageHeight,
-      -imageWidth / 2, -imageHeight / 2,
-      imageWidth, imageHeight);
+
+  // context.drawImage(image,
+  //     imageWidth /* * d.i */, imageHeight /* * d.j */,
+  //     imageWidth * 2, imageHeight * 2,
+  //     -imageWidth / 2, -imageHeight / 2,
+  //     imageWidth, imageHeight);
   context.restore();
 }
 
@@ -295,11 +316,26 @@ function resized() {
 
   anchor.exit().remove();
 
-  anchor.enter().append("a")
+  anchor.enter()
+  	  .append("a")
       .attr("xlink:href", function(d) { return d.example.url; })
       .attr("xlink:title", function(d) { return d.example.title; })
-    .append("path")
-      .attr("d", hexbin.hexagon());
+
+      // .append("image")
+      // .attr("xlink:href", "https://github.com/favicon.ico")
+      //       .attr("x", -8)
+      //       .attr("y", -8)
+      //       .attr("width", 50)
+      //       .attr("height", 50)
+      //       .attr("z-index", 10)
+      //       .attr("overflow", "hidden")
+
+      .append("path")
+      .attr("d", hexbin.hexagon())
+      .style("fill", "url(https://github.com/favicon.ico)");
+
+
+      	
 
   anchor
       .attr("transform", function(d) { return "translate(" + d + ")"; });
