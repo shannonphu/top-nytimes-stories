@@ -229,8 +229,8 @@ d3.shuffle(data);
 
 var height = $(window).height(),
     imageWidth = 300,//132,
-    imageHeight = 300,//152,
-    radius = 150,//75,
+    imageHeight = 400,//152,
+    radius = 80,//200,
     depth = 4;
 
 var currentFocus = [innerWidth / 2, height / 2],
@@ -284,9 +284,10 @@ defs.append('pattern')
 
 var clipPath = defs.append('clipPath').attr('id', 'clip-circle')
 .append("circle")
-    .attr("r", 50);
+    .attr("r", 200);
     // .attr("cy", 100)
     // .attr("cx", 120)
+
 
 // svg.append("image")
 //      .attr("x", -130)
@@ -384,13 +385,14 @@ function resized() {
 	    //.style('filter', 'url(#alt)');
 
         .append("image")
-             .attr("x", -20)
-             .attr("y", -20)
-             .attr("height", 190)
-             .attr("width", 300)
+             .attr("x", 20)
+             .attr("y", 10)
+             .attr("height", 200)//150)
+             .attr("width", 150)//300)
              .attr("xlink:href", 'http://www.epsomandewellhistoryexplorer.org.uk/images/PoppyfieldNormandy.jpg')
-        .attr("clip-path", "url(#clip-circle)");
-
+            //.attr("clip-path", "url(#clip-circle)");
+            .attr("d", d3.svg.symbol().type("triangle-up"));
+        
   anchor
       .attr("transform", function(d) { return "translate(" + d + ")"; });
 
