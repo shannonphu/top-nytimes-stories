@@ -15,18 +15,14 @@ h1 {
 	top: 150px;
 }
 
-.link {
-	stroke: blue;
-}
-
 // D3 Hexbin Styling
 
 #examples {
-  top: -50px;
-  background: #ddd;
-  height: 110%;
-  border-top: solid 1px #fff;
-  border-bottom: solid 1px #fff;
+  //top: -50px;
+  //background: #ddd;
+  //height: 110%;
+  //border-top: solid 1px #fff;
+  //border-bottom: solid 1px #fff;
   overflow: hidden;
 }
 
@@ -39,10 +35,10 @@ h1 {
   backface-visibility: hidden;
 }
 
-#examples svg,
-#examples canvas {
-  position: absolute;
-}
+// #examples svg,
+// #examples canvas {
+//   position: absolute;
+// }
 
 .example-mesh {
   fill: none;
