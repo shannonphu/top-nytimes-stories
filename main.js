@@ -7,6 +7,38 @@ $(document).ready(function() {
 		$('.card').transition('fly right');
 		$('.card').transition('fly right');
 	});
+
+    var imgurl = "http://wallpapers.androlib.com/wallicons/wallpaper.big-pqC.cs.png"
+
+    var margin = {top: 20, right: 10, bottom: 20, left: 10};
+
+
+    var width = 960 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom;
+
+
+    var svg = d3.select("body").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+    var defs = svg.append("defs").attr("id", "imgdefs")
+
+    var clipPath = defs.append('clipPath').attr('id', 'clip-circle')
+    .append("circle")
+        .attr("r", 100)
+        .attr("cy", 100)
+        .attr("cx", 120);
+
+    svg.append("image")
+         .attr("x", -130)
+         .attr("y", -220)
+         .attr("height", 640)
+         .attr("width", 480)
+         .attr("xlink:href", imgurl)
+    .attr("clip-path", "url(#clip-circle)");
 });
 
 // var BASE_URL_FRONT = "http://api.nytimes.com/svc/topstories/v1/";
@@ -196,9 +228,9 @@ Math.seedrandom(+d3.time.hour(new Date));
 d3.shuffle(data);
 
 var height = $(window).height(),
-    imageWidth = 132,
-    imageHeight = 152,
-    radius = 75,
+    imageWidth = 300,//132,
+    imageHeight = 300,//152,
+    radius = 150,//75,
     depth = 4;
 
 var currentFocus = [innerWidth / 2, height / 2],
@@ -237,6 +269,35 @@ var anchor = svg.append("g")
 
 var graphic = deep.selectAll("svg,canvas");
 
+// my addition
+
+var defs = svg.append('defs');
+defs.append('pattern')
+        .attr('id', 'alt')
+        .attr('patternUnits', 'userSpaceOnUse')
+        .attr('width', '100%')
+        .attr('height', '100%')
+        .attr('x', '0%')
+        .attr('y', '0%')
+    .append('image')
+        .attr('xlink:xlink:href', 'http://www.epsomandewellhistoryexplorer.org.uk/images/PoppyfieldNormandy.jpg')
+
+var clipPath = defs.append('clipPath').attr('id', 'clip-circle')
+.append("circle")
+    .attr("r", 50);
+    // .attr("cy", 100)
+    // .attr("cx", 120)
+
+// svg.append("image")
+//      .attr("x", -130)
+//      .attr("y", -220)
+//      .attr("height", 640)
+//      .attr("width", 480)
+//      .attr("xlink:href", 'http://www.epsomandewellhistoryexplorer.org.uk/images/PoppyfieldNormandy.jpg')
+// .attr("clip-path", "url(#clip-circle)");
+
+// end my addition
+
 var image = new Image;
 // image.src = ;
 image.onload = resized;
@@ -246,19 +307,6 @@ var sources = [ "http://impreza.us-themes.com/wp-content/uploads/img-6.jpg", "ht
 
 // Set image src 
 //image.src = sources[0];
-
-
-// mesh.append("svg:pattern")
-//     .attr("id", "background")
-//     .attr("width", 400)
-//     .attr("height", 400)
-//     .attr("patternUnits", "userSpaceOnUse")
-//     .append("svg:image")
-//     .attr("xlink:href", 'http://placekitten.com/g/48/48')
-//     .attr("width", 200)
-//     .attr("height", 200)
-//     .attr("x", 0)
-//     .attr("y", 0);
 
 
 d3.select(window)
@@ -310,35 +358,43 @@ function resized() {
     context.restore();
   });
 
-  mesh.attr("d", hexbin.mesh);
+  //mesh.attr("d", hexbin.mesh);
 
   anchor = anchor.data(centers, function(d) { return d.i + "," + d.j; });
 
   anchor.exit().remove();
 
-  anchor.enter()
-  	  .append("a")
-      .attr("xlink:href", function(d) { return d.example.url; })
-      .attr("xlink:title", function(d) { return d.example.title; })
+  console.log($("#alt"));
 
-      // .append("image")
-      // .attr("xlink:href", "https://github.com/favicon.ico")
-      //       .attr("x", -8)
-      //       .attr("y", -8)
-      //       .attr("width", 50)
-      //       .attr("height", 50)
-      //       .attr("z-index", 10)
-      //       .attr("overflow", "hidden")
+	anchor.enter()
+		.append("a")
+	    .attr("xlink:href", function(d) { return d.example.url; })
+	    .attr("xlink:title", function(d) { return d.example.title; })
 
-      .append("path")
-      .attr("d", hexbin.hexagon())
-      .style("fill", "url(https://github.com/favicon.ico)");
+        // .append("svg:circle")
+        //     .attr("r", 50)
+        //     .attr("cy", 100)
+        //     .attr("cx", 100)
+        //     .attr("fill", "green");
+            //.attr("d", hexbin.hexagon());
 
+	    // .append("path")
+	    // .attr("d", hexbin.hexagon())
+     //    .attr("filter", "url(#alt)");
+	    //.style('filter', 'url(#alt)');
 
-      	
+        .append("image")
+             .attr("x", -20)
+             .attr("y", -20)
+             .attr("height", 190)
+             .attr("width", 300)
+             .attr("xlink:href", 'http://www.epsomandewellhistoryexplorer.org.uk/images/PoppyfieldNormandy.jpg')
+        .attr("clip-path", "url(#clip-circle)");
 
   anchor
       .attr("transform", function(d) { return "translate(" + d + ")"; });
+
+      
 }
 
 function mousemoved() {
@@ -360,3 +416,4 @@ function moved() {
     return idle;
   });
 }
+
