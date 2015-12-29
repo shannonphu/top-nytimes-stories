@@ -4,99 +4,27 @@ $(document).ready(function() {
 		$('.ui.labeled.icon.sidebar').sidebar('toggle');
 		$("#examples").height($(window).height() + 50);
 	});
-	$(this).click(function(){
-		$('.card').transition('fly right');
-		$('.card').transition('fly right');
-	});
 
-	mappedJSONToStory();
+	mapJSONToStory("sports");
 
-	// // Deal with responsiveness
-	// d3.select(window)
-	//     .on("resize", setupForceLayout)
-	//     .each(setupForceLayout);
+	// Deal with responsiveness
+	$(window).resize(function() {
+		var windowWidth = $(window).width();
+		// Determine width based on window width and device
+		var width = windowWidth < 640 ? windowWidth : windowWidth - $("#story-specific").width();
+		var height = $(window).height();
+
+		if (windowWidth < 640) {
+			$('main').css('top', $('.card').height() / 3);
+		} else {
+			$('main').css('top', -50);
+		};
+
+		d3.select("#examples").append("svg")
+		    .attr("width", width)
+		    .attr("height", height + 50);
+    });
 });
-
-// sample data
-var data = [
-{title: "Reingold–Tilford Tree (Radial)", url: "http://bl.ocks.org/mbostock/4063550", image_url: "http://www.w3schools.com/images/pulpit.jpg"},
-{title: "Factorisation Diagrams", url: "http://www.jasondavies.com/factorisation-diagrams/", image_url: "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg"},
-{title: "Phylogenetic Tree of Life", url: "http://www.jasondavies.com/tree-of-life/", image_url: "http://www.w3schools.com/images/pulpit.jpg"},
-{title: "Geographic Clipping", url: "http://www.jasondavies.com/maps/clip/", image_url: "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg"},
-{title: "Les Misérables Co-occurrence Matrix", url: "http://bost.ocks.org/mike/miserables/", image_url: "http://www.w3schools.com/images/pulpit.jpg"},
-{title: "L*a*b* and HCL color spaces", url: "http://bl.ocks.org/mbostock/3014589", image_url: "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg"},
-{title: "Treemap", url: "http://bl.ocks.org/mbostock/4063582", image_url: "http://www.w3schools.com/images/pulpit.jpg"},
-{title: "Map Projection Transitions", url: "http://www.jasondavies.com/maps/transition/", image_url: "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg"},
-{title: "Across U.S. Companies, Tax Rates Vary Greatly", url: "http://www.nytimes.com/interactive/2013/05/25/sunday-review/corporate-taxes.html", image_url: "http://www.w3schools.com/images/pulpit.jpg"},
-{title: "Rotating Voronoi", url: "http://bl.ocks.org/mbostock/4636377", image_url: "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg"},
-{title: "Zoomable Geography", url: "http://bl.ocks.org/mbostock/2374239", image_url: "http://www.w3schools.com/images/pulpit.jpg"},
-{title: "Fisheye Distortion", url: "http://bost.ocks.org/mike/fisheye/", image_url: "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg"},
-{title: "Geodesic Rainbow", url: "http://bl.ocks.org/mbostock/3057239", image_url: "http://www.w3schools.com/images/pulpit.jpg"},
-{title: "Hierarchical Bar Chart", url: "http://bl.ocks.org/mbostock/1283663", image_url: "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg"},
-{title: "Exoplanets", url: "http://bl.ocks.org/mbostock/3007180", image_url: "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg"},
-{title: "Crossfilter", url: "http://square.github.io/crossfilter/", image_url: "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg"},
-{title: "Alaska’s villages on the frontline of climate change", url: "http://www.guardian.co.uk/environment/interactive/2013/may/14/alaska-villages-frontline-global-warming", image_url: "http://www.w3schools.com/images/pulpit.jpg"},
-{title: "The federal health-care exchange’s abysmal success rate", url: "http://www.washingtonpost.com/wp-srv/special/politics/state-vs-federal-exchanges/"},
-{title: "Counties Blue and Red, Moving Right and Left", url: "http://www.nytimes.com/interactive/2012/11/11/sunday-review/counties-moving.html", image_url: "http://www.w3schools.com/images/pulpit.jpg"},
-{title: "At the National Conventions, the Words They Used", url: "http://www.nytimes.com/interactive/2012/09/06/us/politics/convention-word-counts.html", image_url: "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg"},
-{title: "Reprojected Raster Tiles", url: "http://www.jasondavies.com/maps/raster/", image_url: "http://www.w3schools.com/images/pulpit.jpg"},
-{title: "Hive Plots", url: "http://bost.ocks.org/mike/hive/", image_url: "http://www.online-image-editor.com//styles/2014/images/example_image.png"},
-{title: "Donut Transitions", url: "http://bl.ocks.org/mbostock/4341417", image_url: "http://www.online-image-editor.com//styles/2014/images/example_image.png"},
-{title: "Non-Contiguous Cartogram", url: "http://bl.ocks.org/mbostock/4055908"},
-{title: "Spermatozoa", url: "http://bl.ocks.org/mbostock/1136236", image_url: "http://www.online-image-editor.com//styles/2014/images/example_image.png"},
-{title: "Reingold–Tilford Tree (Radial)", url: "http://bl.ocks.org/mbostock/4063550", image_url: "http://www.w3schools.com/images/pulpit.jpg"},
-{title: "Factorisation Diagrams", url: "http://www.jasondavies.com/factorisation-diagrams/", image_url: "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg"},
-{title: "Phylogenetic Tree of Life", url: "http://www.jasondavies.com/tree-of-life/", image_url: "http://www.w3schools.com/images/pulpit.jpg"},
-{title: "Geographic Clipping", url: "http://www.jasondavies.com/maps/clip/", image_url: "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg"},
-{title: "Les Misérables Co-occurrence Matrix", url: "http://bost.ocks.org/mike/miserables/", image_url: "http://www.w3schools.com/images/pulpit.jpg"},
-{title: "L*a*b* and HCL color spaces", url: "http://bl.ocks.org/mbostock/3014589", image_url: "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg"},
-{title: "Treemap", url: "http://bl.ocks.org/mbostock/4063582", image_url: "http://www.w3schools.com/images/pulpit.jpg"},
-{title: "Map Projection Transitions", url: "http://www.jasondavies.com/maps/transition/", image_url: "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg"},
-{title: "Across U.S. Companies, Tax Rates Vary Greatly", url: "http://www.nytimes.com/interactive/2013/05/25/sunday-review/corporate-taxes.html", image_url: "http://www.w3schools.com/images/pulpit.jpg"},
-{title: "Rotating Voronoi", url: "http://bl.ocks.org/mbostock/4636377", image_url: "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg"},
-{title: "Zoomable Geography", url: "http://bl.ocks.org/mbostock/2374239", image_url: "http://www.w3schools.com/images/pulpit.jpg"},
-{title: "Fisheye Distortion", url: "http://bost.ocks.org/mike/fisheye/", image_url: "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg"},
-{title: "Geodesic Rainbow", url: "http://bl.ocks.org/mbostock/3057239", image_url: "http://www.w3schools.com/images/pulpit.jpg"},
-{title: "Hierarchical Bar Chart", url: "http://bl.ocks.org/mbostock/1283663", image_url: "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg"},
-{title: "Exoplanets", url: "http://bl.ocks.org/mbostock/3007180", image_url: "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg"},
-{title: "Crossfilter", url: "http://square.github.io/crossfilter/", image_url: "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg"},
-{title: "Alaska’s villages on the frontline of climate change", url: "http://www.guardian.co.uk/environment/interactive/2013/may/14/alaska-villages-frontline-global-warming", image_url: "http://www.w3schools.com/images/pulpit.jpg"},
-{title: "The federal health-care exchange’s abysmal success rate", url: "http://www.washingtonpost.com/wp-srv/special/politics/state-vs-federal-exchanges/"},
-{title: "Counties Blue and Red, Moving Right and Left", url: "http://www.nytimes.com/interactive/2012/11/11/sunday-review/counties-moving.html", image_url: "http://www.w3schools.com/images/pulpit.jpg"},
-{title: "At the National Conventions, the Words They Used", url: "http://www.nytimes.com/interactive/2012/09/06/us/politics/convention-word-counts.html", image_url: "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg"},
-{title: "Reprojected Raster Tiles", url: "http://www.jasondavies.com/maps/raster/", image_url: "http://www.w3schools.com/images/pulpit.jpg"},
-{title: "Hive Plots", url: "http://bost.ocks.org/mike/hive/", image_url: "http://www.online-image-editor.com//styles/2014/images/example_image.png"},
-{title: "Donut Transitions", url: "http://bl.ocks.org/mbostock/4341417", image_url: "http://www.online-image-editor.com//styles/2014/images/example_image.png"},
-{title: "Non-Contiguous Cartogram", url: "http://bl.ocks.org/mbostock/4055908"},
-{title: "Spermatozoa", url: "http://bl.ocks.org/mbostock/1136236", image_url: "http://www.online-image-editor.com//styles/2014/images/example_image.png"},
-{title: "Reingold–Tilford Tree (Radial)", url: "http://bl.ocks.org/mbostock/4063550", image_url: "http://www.w3schools.com/images/pulpit.jpg"},
-{title: "Factorisation Diagrams", url: "http://www.jasondavies.com/factorisation-diagrams/", image_url: "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg"},
-{title: "Phylogenetic Tree of Life", url: "http://www.jasondavies.com/tree-of-life/", image_url: "http://www.w3schools.com/images/pulpit.jpg"},
-{title: "Geographic Clipping", url: "http://www.jasondavies.com/maps/clip/", image_url: "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg"},
-{title: "Les Misérables Co-occurrence Matrix", url: "http://bost.ocks.org/mike/miserables/", image_url: "http://www.w3schools.com/images/pulpit.jpg"},
-{title: "L*a*b* and HCL color spaces", url: "http://bl.ocks.org/mbostock/3014589", image_url: "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg"},
-{title: "Treemap", url: "http://bl.ocks.org/mbostock/4063582", image_url: "http://www.w3schools.com/images/pulpit.jpg"},
-{title: "Map Projection Transitions", url: "http://www.jasondavies.com/maps/transition/", image_url: "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg"},
-{title: "Across U.S. Companies, Tax Rates Vary Greatly", url: "http://www.nytimes.com/interactive/2013/05/25/sunday-review/corporate-taxes.html", image_url: "http://www.w3schools.com/images/pulpit.jpg"},
-{title: "Rotating Voronoi", url: "http://bl.ocks.org/mbostock/4636377", image_url: "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg"},
-{title: "Zoomable Geography", url: "http://bl.ocks.org/mbostock/2374239", image_url: "http://www.w3schools.com/images/pulpit.jpg"},
-{title: "Fisheye Distortion", url: "http://bost.ocks.org/mike/fisheye/", image_url: "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg"},
-{title: "Geodesic Rainbow", url: "http://bl.ocks.org/mbostock/3057239", image_url: "http://www.w3schools.com/images/pulpit.jpg"},
-{title: "Hierarchical Bar Chart", url: "http://bl.ocks.org/mbostock/1283663", image_url: "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg"},
-{title: "Exoplanets", url: "http://bl.ocks.org/mbostock/3007180", image_url: "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg"},
-{title: "Crossfilter", url: "http://square.github.io/crossfilter/", image_url: "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg"},
-{title: "Alaska’s villages on the frontline of climate change", url: "http://www.guardian.co.uk/environment/interactive/2013/may/14/alaska-villages-frontline-global-warming", image_url: "http://www.w3schools.com/images/pulpit.jpg"},
-{title: "The federal health-care exchange’s abysmal success rate", url: "http://www.washingtonpost.com/wp-srv/special/politics/state-vs-federal-exchanges/"},
-{title: "Counties Blue and Red, Moving Right and Left", url: "http://www.nytimes.com/interactive/2012/11/11/sunday-review/counties-moving.html", image_url: "http://www.w3schools.com/images/pulpit.jpg"},
-{title: "At the National Conventions, the Words They Used", url: "http://www.nytimes.com/interactive/2012/09/06/us/politics/convention-word-counts.html", image_url: "http://www.keenthemes.com/preview/metronic/theme/assets/global/plugins/jcrop/demos/demo_files/image1.jpg"},
-{title: "Reprojected Raster Tiles", url: "http://www.jasondavies.com/maps/raster/", image_url: "http://www.w3schools.com/images/pulpit.jpg"},
-{title: "Hive Plots", url: "http://bost.ocks.org/mike/hive/", image_url: "http://www.online-image-editor.com//styles/2014/images/example_image.png"},
-{title: "Donut Transitions", url: "http://bl.ocks.org/mbostock/4341417", image_url: "http://www.online-image-editor.com//styles/2014/images/example_image.png"},
-{title: "Non-Contiguous Cartogram", url: "http://bl.ocks.org/mbostock/4055908"},
-{title: "Spermatozoa", url: "http://bl.ocks.org/mbostock/1136236", image_url: "http://www.online-image-editor.com//styles/2014/images/example_image.png"}
-];
-
-// end sample data
 
 // Map JSON to story objects
 
@@ -116,10 +44,12 @@ var dataOfSection = function(section) {
 	return BASE_URL_FRONT + section + BASE_URL_END;
 };
 
-var mappedJSONToStory = function() {
+var mapJSONToStory = function(section) {
+	$('body').dimmer('show');
+
 	var stories = [];
 	
-	$.get( dataOfSection("world"), function(data) {
+	$.get( dataOfSection(section), function(data) {
 		var results = data.results;
 		// Map each JSON object into Story object
 		results.forEach(function(story) {
@@ -130,7 +60,7 @@ var mappedJSONToStory = function() {
 			var imageLength = story["multimedia"].length;
 			for (var i = 0; i < imageLength; i++) {
 				var image = story.multimedia[i];
-				if (image.format == "superJumbo") {
+				if (image.format == "mediumThreeByTwo210") {
 					image_url = image.url;
 					image_caption = image.caption;
 				};
@@ -140,16 +70,17 @@ var mappedJSONToStory = function() {
 			var mappedStory = new Story(story.title, story.abstract, story.url, story.byline, image_url, image_caption);
 			stories.push(mappedStory);
 		});
-	  	//console.log(stories);
 
 	  	// Set up d3 force layout
 	  	setupForceLayout(stories);
+
+	  	$('body').dimmer('hide');
 	});
 }
 
 // end mapping
 
-var addFillPattern = function(patternDef, patternName, url) {
+var addFillPattern = function(patternDef, patternName, url) {	
 	patternDef.append("pattern")
 	                .attr("id", patternName)
 	                .attr("height", 1)
@@ -165,6 +96,9 @@ var addFillPattern = function(patternDef, patternName, url) {
 };
 
 var setupForceLayout = function(stories) {
+	// Fill in initial card
+	fillCardInfo(stories[0]);
+
 	var windowWidth = $(window).width();
 	// Determine width based on window width and device
 	var width = windowWidth < 640 ? windowWidth : windowWidth - $("#story-specific").width(),
@@ -204,47 +138,57 @@ var setupForceLayout = function(stories) {
 	    .attr("width", width)
 	    .attr("height", height + 50);
 
-	if (windowWidth < 640) {
-		$('main').css('top', $('.card').height() / 3);
-	} else {
-		$('main').css('top', -50);
-	};
-
 	// Define pattern fills for circles
 
 	var defs = svg.append("defs").attr("id", "imgdefs");
 
-	addFillPattern(defs, "trial-pattern", "https://www.wonderplugin.com/wp-content/plugins/wonderplugin-lightbox/images/demo-image0.jpg");
-
-	// var trialPattern = defs.append("pattern")
-	//                         .attr("id", "trial-pattern")
-	//                         .attr("height", 1)
-	//                         .attr("width", 1)
-	//                         .attr("x", "0")
-	//                         .attr("y", "0");
-
-	// trialPattern.append("image")
-	//      .attr("x", -20)
-	//      .attr("y", -40)
-	//      .attr("height", 300)
-	//      .attr("width", 300)
-	//      .attr("xlink:href", "https://www.wonderplugin.com/wp-content/plugins/wonderplugin-lightbox/images/demo-image0.jpg");
-
+	// Example call to add fill pattern
+	addFillPattern(defs, "undefined-pattern", "http://www.rapidcityjournal.com/app/communities/subscribe.png");
+	
 	// end pattern definitions
 
 	var circle = svg.selectAll("circle")
 	    .data(nodes)
 	    .enter()
 	    	.append("a")
-		    	.attr("xlink:href", function(d) { return data[d.index].url; })
+		    	.attr("xlink:href", function(d) { return stories[d.index].content_url; })
 	    	.append("circle")
+	    	.attr("id", function(d) { return d.index; })
 		    .attr("r", function(d) { return d.radius; })
 		    .attr("fill", function(d) { 
-		    	var tagName = data[d.index].title.replace(/\s+/g, '-').toLowerCase();
-		    	addFillPattern(defs, tagName, data[d.index].image_url);
+		    	var tagName;
+		    	if (typeof stories[d.index].image_url === "undefined") {
+		    		 return color(d.cluster);
+	    		}
+		    	else {
+		    		tagName = stories[d.index].story_title.replace(/\s+/g, '-').toLowerCase();
+		    		addFillPattern(defs, tagName, stories[d.index].image_url);
+		    	}
 			    return "url(#" + tagName + ")"; 
 		    })
 		    .call(force.drag);
+
+	// Prevent following link on circle nodes, change side card, hilight node
+	$('circle').click(function (e) {
+	    e.preventDefault();
+	    
+	    svg.selectAll("circle")
+	    	.transition()
+	    	.duration(1000)
+	    	.style("fill-opacity", 1);
+	    d3.select(this)
+			   .transition()
+			   .duration(1000)
+			   .style("fill-opacity", 0.3);
+
+		$(this).transition('tada');
+	    $('.card').transition('jiggle');
+
+	    var id = d3.select(this).attr("id");
+	    var story = stories[id];
+	    fillCardInfo(story);
+    		   
+	});
 
 	// d3 force layout utility functions
 	function tick(e) {
@@ -252,7 +196,8 @@ var setupForceLayout = function(stories) {
 	      .each(cluster(10 * e.alpha * e.alpha))
 	      .each(collide(.5))
 	      .attr("cx", function(d) { return d.x; })
-	      .attr("cy", function(d) { return d.y; });
+	      .attr("cy", function(d) { return d.y; })
+
 	}
 
 	// Move d to be adjacent to the cluster node.
@@ -304,6 +249,28 @@ var setupForceLayout = function(stories) {
 
 	// end utility functions
 };
+
+var fillCardInfo = function(story) {
+    var image_url, caption; 
+    if (typeof story.image_url === "undefined") {
+	    image_url = "http://www.agwest.com/used/images/default-image-agwest-thumb.jpg";
+	    caption = "No caption available.";
+	} else {
+		image_url = story.image_url;
+		caption = story.image_caption;
+	}
+    $(".card img").attr('src', image_url);
+    $(".card .header").text(story.story_title);
+    $(".card .byline").text(story.byline);
+    $(".card .description").text(story.abstract);
+    $(".card .caption").text(caption);
+    $(".card .link").attr('href', story.content_url);
+};
+
+$('.sidebar a').click(function (e) {
+    var section = $(this).text().toLowerCase().replace(/ /g, '');
+    mapJSONToStory(section);
+});
 
 // Returns a random integer between min (inclusive) and max (inclusive)
 // Using Math.round() will give you a non-uniform distribution!
