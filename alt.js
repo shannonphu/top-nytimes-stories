@@ -1,28 +1,37 @@
+var currCategory = "sports";
+
 $(document).ready(function() {
+	setBackground();
+
 	// Sidebar jQuery
 	$("#sidebar-button").click(function(){
-		$('.ui.labeled.icon.sidebar').sidebar('toggle');
+		$('.ui.labeled.icon.sidebar').sidebar('show');
 		$("#examples").height($(window).height() + 50);
+		setBackground();
 	});
 
-	mapJSONToStory("sports");
+	// Init starting category (sports)
+	$("#sports").css("background", "darkseagreen");
+	mapJSONToStory(currCategory);
 
 	// Deal with responsiveness
 	$(window).resize(function() {
-		var windowWidth = $(window).width();
-		// Determine width based on window width and device
-		var width = windowWidth < 640 ? windowWidth : windowWidth - $("#story-specific").width();
-		var height = $(window).height();
+		waitForFinalEvent(function() {
 
-		if (windowWidth < 640) {
-			$('main').css('top', $('.card').height() / 3);
-		} else {
-			$('main').css('top', -50);
-		};
+			var windowWidth = $(window).width();
+			// Determine width based on window width and device
+			var width = windowWidth < 640 ? windowWidth : windowWidth - $("#story-specific").width();
+			var height = $(window).height();
 
-		d3.select("#examples").append("svg")
-		    .attr("width", width)
-		    .attr("height", height + 50);
+			if (windowWidth < 640) {
+				$('main').css('top', $('.card').height() / 3);
+			} else {
+				$('main').css('top', -50);
+			};
+
+			mapJSONToStory(currCategory);
+
+	    }, 500, "some string");
     });
 });
 
@@ -75,6 +84,8 @@ var mapJSONToStory = function(section) {
 	  	setupForceLayout(stories);
 
 	  	$('body').dimmer('hide');
+	  	setBackground();
+	  	return stories;
 	});
 }
 
@@ -96,8 +107,15 @@ var addFillPattern = function(patternDef, patternName, url) {
 };
 
 var setupForceLayout = function(stories) {
-	// Fill in initial card
-	fillCardInfo(stories[0]);
+
+	// Fill in initial card	
+	var num = stories.length;
+	for (var i = 0; i < num; i++) {
+	  if (typeof stories[i] != "undefined") { 
+	  	fillCardInfo(stories[i]);
+	  	break;
+	  }
+	}
 
 	var windowWidth = $(window).width();
 	// Determine width based on window width and device
@@ -108,7 +126,6 @@ var setupForceLayout = function(stories) {
 	    minRadius = 30,
 	    maxRadius = 80;
 
-    console.log(stories);
 	var n = m = stories.length; // n: total number of circles, m: number of distinct clusters
 
 	var color = d3.scale.category10()
@@ -251,26 +268,62 @@ var setupForceLayout = function(stories) {
 };
 
 var fillCardInfo = function(story) {
+    if (typeof story === "undefined")
+    	return;
+
     var image_url, caption; 
+
     if (typeof story.image_url === "undefined") {
+    	console.log("entered");
 	    image_url = "http://www.agwest.com/used/images/default-image-agwest-thumb.jpg";
 	    caption = "No caption available.";
 	} else {
 		image_url = story.image_url;
 		caption = story.image_caption;
 	}
+
     $(".card img").attr('src', image_url);
     $(".card .header").text(story.story_title);
     $(".card .byline").text(story.byline);
     $(".card .description").text(story.abstract);
     $(".card .caption").text(caption);
     $(".card .link").attr('href', story.content_url);
+    $(".card .image").attr('href', story.content_url);
 };
 
 $('.sidebar a').click(function (e) {
-    var section = $(this).text().toLowerCase().replace(/ /g, '');
-    mapJSONToStory(section);
+	$('.sidebar a').css("background", "black");
+	$(this).css("background", "darkseagreen");
+
+	var newCategory = $(this).text().toLowerCase().replace(/ /g, '');
+	if (currCategory === newCategory) {
+		$('.ui.labeled.icon.sidebar').sidebar('toggle');
+		return;
+	}
+    currCategory = newCategory;
+    mapJSONToStory(currCategory);
+    $('.ui.labeled.icon.sidebar').delay(2000).sidebar('hide');
+    setBackground();
 });
+
+// Wait till done resizing before re-drawing svg canvas
+var waitForFinalEvent = (function () {
+  var timers = {};
+  return function (callback, ms, uniqueId) {
+    if (!uniqueId) {
+      uniqueId = "Don't call this twice without a uniqueId";
+    }
+    if (timers[uniqueId]) {
+      clearTimeout (timers[uniqueId]);
+    }
+    timers[uniqueId] = setTimeout(callback, ms);
+  };
+})();
+
+var setBackground = function() {
+	$("body").css("background", 'url("wet_snow.png")');
+	$(".pusher").css("background", 'url("wet_snow.png")');
+};
 
 // Returns a random integer between min (inclusive) and max (inclusive)
 // Using Math.round() will give you a non-uniform distribution!

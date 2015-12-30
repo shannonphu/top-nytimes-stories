@@ -9,19 +9,10 @@ h1 {
 	text-align: center;
 	position: absolute;
 	z-index: 2;
+	color: black;
 }
 
 .card {
-	top: 150px;
-}
-
-body {
-	background-color: black;
-}
-
-// D3 Hexbin Styling
-
-#examples {
-  overflow: hidden;
+	top: 100px;
 }
 
